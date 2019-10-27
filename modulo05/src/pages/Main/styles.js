@@ -73,8 +73,8 @@ export const List = styled.ul`
 `;
 
 const shake = keyframes`
-  0%, 75%%{ transform: translate(-15px); }
-  25%, 100% { transform: translate(15px); }
+  0%, 75%%{ transform: translate(-10px); }
+  25%, 100% { transform: translate(10px); }
   50% { transform: translate(0px);
 
    }

@@ -48,6 +48,8 @@ export default class Main extends Component {
     try {
       const { newRepo, repos } = this.state;
       const response = await api.get(`/repos/${newRepo}`);
+      const { status } = response;
+      console.log(status);
 
       if (newRepo === '') throw new Error('Invalid Repository');
 
@@ -65,7 +67,10 @@ export default class Main extends Component {
         loading: false,
       });
     } catch (error) {
-      this.setState({ error: true, errMsg: error.message });
+      this.setState({
+        error: true,
+        errMsg: error.response ? error.response.data.message : error.message,
+      });
     } finally {
       this.setState({ loading: false });
     }
