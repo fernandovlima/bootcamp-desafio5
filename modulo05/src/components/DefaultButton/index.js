@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const DefaultButton = styled.button`
   background: #7157c1;
@@ -8,6 +8,14 @@ const DefaultButton = styled.button`
   height: 40px;
   border-radius: 4px;
   font-weight: 500;
+
+  ${props =>
+    props.active &&
+    css`
+      button {
+        background: black;
+      }
+    `}
 
   &:hover {
     background: #fff;

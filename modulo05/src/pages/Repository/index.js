@@ -67,7 +67,15 @@ export default class Repository extends Component {
   };
 
   handleButtonFilterClick = async filterIndex => {
-    await this.setState({ filterIndex });
+    await this.setState({ filterIndex, page: 1 });
+    this.loadIssues();
+  };
+
+  handlePage = async action => {
+    const { page } = this.state;
+    await this.setState({
+      page: action === 'back' ? page - 1 : page + 1,
+    });
     this.loadIssues();
   };
 
@@ -92,11 +100,13 @@ export default class Repository extends Component {
               <DefaultButton
                 key={filter.label}
                 onClick={() => this.handleButtonFilterClick(index)}
+                active={filter.active}
               >
                 {filter.label}
               </DefaultButton>
             ))}
           </IssueFilter>
+
           {issues.map(issue => (
             <li key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />

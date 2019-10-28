@@ -126,4 +126,10 @@ export const IssueFilter = styled.div`
   border-bottom: 1px solid #eee;
 `;
 
-export const PageActions = styled.div``;
+export const PageActions = styled.div`
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+`;
