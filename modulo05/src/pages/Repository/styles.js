@@ -21,6 +21,15 @@ export const Owner = styled.div`
     text-decoration: none;
     font-size: 16px;
     padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    margin-bottom: 10px;
+
+    &:hover {
+      background: #fff;
+      color: #7159c1;
+      border: 1px solid #7159c1;
+    }
   }
 
   img {
@@ -80,25 +89,41 @@ export const IssueList = styled.div`
         color: #333;
 
         &:hover {
-          color: #9159c1;
+          background: #fff;
+          color: #7159c1;
+          border: 1px solid #7159c1;
+          font-weight: 800;
+        }
+        span {
+          background: #eee;
+          color: #333;
+          border-radius: 3px;
+          font-size: 12px;
+          font-weight: 600;
+          height: 20px;
+          padding: 3px 4px;
+          margin-left: 10px;
         }
       }
-      span {
-        background: #eee;
-        color: #333;
-        border-radius: 3px;
-        font-size: 12px;
-        font-weight: 600;
-        height: 20px;
-        padding: 3px 4px;
-        margin-left: 10px;
-      }
-    }
 
-    p {
-      margin-top: 5px;
-      font-size: 12px;
-      color: #999;
+      p {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #999;
+      }
     }
   }
 `;
+
+export const IssueFilter = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: center;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+`;
+
+export const PageActions = styled.div``;

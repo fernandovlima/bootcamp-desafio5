@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 // styled components
 import Container from '../../components/Container/index';
-import { Loading, Owner, IssueList } from './styles';
+import DefaultButton from '../../components/DefaultButton/index';
+import { Loading, Owner, IssueList, IssueFilter, PageActions } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -20,6 +21,13 @@ export default class Repository extends Component {
     repos: {},
     issues: [],
     loading: true,
+    filters: [
+      { state: 'all', label: 'All', active: true },
+      { state: 'open', label: 'Open', active: false },
+      { state: 'closed', label: 'Closed', active: false },
+    ],
+    filterIndex: 0,
+    page: 1,
   };
 
   async componentDidMount() {
@@ -41,8 +49,30 @@ export default class Repository extends Component {
     });
   }
 
+  // load all issues
+  loadIssues = async () => {
+    const { match } = this.props;
+    const { filters, filterIndex, page } = this.state;
+
+    const repoName = decodeURIComponent(match.params.repo);
+
+    const response = await api.get(`/repos/${repoName}/issues`, {
+      params: {
+        state: filters[filterIndex].state,
+        per_page: 5,
+        page,
+      },
+    });
+    this.setState({ issues: response.data });
+  };
+
+  handleButtonFilterClick = async filterIndex => {
+    await this.setState({ filterIndex });
+    this.loadIssues();
+  };
+
   render() {
-    const { repos, issues, loading } = this.state;
+    const { repos, issues, loading, filterIndex, page, filters } = this.state;
 
     if (loading) {
       return <Loading>Carregando ...</Loading>;
@@ -55,7 +85,18 @@ export default class Repository extends Component {
           <h1>{repos.name}</h1>
           <p>{repos.description}</p>
         </Owner>
+
         <IssueList>
+          <IssueFilter active={filterIndex}>
+            {filters.map((filter, index) => (
+              <DefaultButton
+                key={filter.label}
+                onClick={() => this.handleButtonFilterClick(index)}
+              >
+                {filter.label}
+              </DefaultButton>
+            ))}
+          </IssueFilter>
           {issues.map(issue => (
             <li key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />
@@ -71,6 +112,18 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <PageActions>
+          <DefaultButton
+            disabled={page < 2}
+            onClick={() => this.handlePage('back')}
+          >
+            Anterior
+          </DefaultButton>
+          <span>Página {page}</span>
+          <DefaultButton onClick={() => this.handlePage('next')}>
+            Próximo
+          </DefaultButton>
+        </PageActions>
       </Container>
     );
   }
